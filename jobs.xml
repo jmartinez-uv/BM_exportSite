@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+    <job job-id="Process" priority="0">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="Training"/>
+            <step step-id="Process" type="ExecuteScriptModule" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="ExecuteScriptModule.Module">custom_app_storefront/cartridge/scripts/job/notifications.js</parameter>
+                    <parameter name="ExecuteScriptModule.FunctionName">processNotifications</parameter>
+                    <parameter name="ExecuteScriptModule.Transactional">true</parameter>
+                    <parameter name="ExecuteScriptModule.TimeoutInSeconds">3600</parameter>
+                </parameters>
+            </step>
+            <step step-id="Clean" type="ExecuteScriptModule" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="ExecuteScriptModule.Module">custom_app_storefront/cartridge/scripts/job/notifications.js</parameter>
+                    <parameter name="ExecuteScriptModule.FunctionName">clearNotifications</parameter>
+                    <parameter name="ExecuteScriptModule.Transactional">true</parameter>
+                    <parameter name="ExecuteScriptModule.TimeoutInSeconds">3600</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2020-04-15Z</date-from>
+                    <start-time>18:46:03.000Z</start-time>
+                    <interval>5m</interval>
+                    <day-of-week>
+                        <weekday>Saturday</weekday>
+                        <weekday>Monday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Sunday</weekday>
+                        <weekday>Wednesday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+    <job job-id="JobExample" priority="0">
+        <description>This is an example only</description>
+        <parameters/>
+        <flow>
+            <context site-id="MayoCustom"/>
+            <step step-id="home-main-m" type="ExportContentSlots" enforce-restart="false">
+                <description>Exports the home-main-m slot</description>
+                <parameters>
+                    <parameter name="FileNamePrefix">/ExampleJob/ContentSlot</parameter>
+                    <parameter name="OverwriteExportFile">true</parameter>
+                </parameters>
+                <rules>
+                    <on-exit status="ERROR">
+                        <stop-job/>
+                    </on-exit>
+                </rules>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-once enabled="true">
+                <date>2020-04-10Z</date>
+                <time>22:09:53.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+    <job job-id="CustomJob" priority="0">
+        <description/>
+        <parameters>
+            <parameter name="wkfolder">IMPEX/src</parameter>
+            <parameter name="regex">'import_.*\.xml'</parameter>
+        </parameters>
+        <flow>
+            <context site-id="Sites"/>
+            <step step-id="ImportSourceCodes" type="ImportSourceCodeGroups" enforce-restart="false">
+                <description>ImportSourceCodes</description>
+                <parameters>
+                    <parameter name="WorkingFolder" job-parameter-ref="wkfolder"/>
+                    <parameter name="FileNamePattern" job-parameter-ref="regex"/>
+                    <parameter name="NoFilesFoundHandling">NO_FILES_FOUND</parameter>
+                    <parameter name="ImportMode">Update</parameter>
+                    <parameter name="ImportFailedHandling">WARN</parameter>
+                    <parameter name="AfterImportFileHandling">Archive</parameter>
+                    <parameter name="ArchiveFolder">archive</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2020-04-29Z</date-from>
+                    <date-to>2020-05-30Z</date-to>
+                    <start-time>19:45:17.000Z</start-time>
+                    <interval>10m</interval>
+                    <day-of-week>
+                        <weekday>Wednesday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+    <job job-id="JobExample2" priority="0">
+        <description/>
+        <parameters>
+            <parameter name="customparameter">export-product</parameter>
+        </parameters>
+        <split sequential="false">
+            <flow>
+                <context site-id="newDemoSite"/>
+                <step step-id="firs-product-export" type="ExportProductLists" enforce-restart="false">
+                    <description/>
+                    <parameters>
+                        <parameter name="ExportFile" job-parameter-ref="customparameter"/>
+                        <parameter name="OverwriteExportFile">true</parameter>
+                    </parameters>
+                    <rules>
+                        <on-exit status="ERROR">
+                            <stop-job/>
+                        </on-exit>
+                    </rules>
+                </step>
+            </flow>
+            <flow>
+                <context site-id="Sites"/>
+                <step step-id="custom-export-catalog" type="ExportCatalog" enforce-restart="false">
+                    <description/>
+                    <parameters>
+                        <parameter name="CatalogID">apparel-m-catalog</parameter>
+                        <parameter name="ExportCategories">false</parameter>
+                        <parameter name="ExportProducts">true</parameter>
+                        <parameter name="ExportCategoryAssignments">false</parameter>
+                        <parameter name="ExportProductOptions">true</parameter>
+                        <parameter name="ExportRecommendations">false</parameter>
+                        <parameter name="ExportVariationAttributes">false</parameter>
+                        <parameter name="ExportFile">exported-catalog</parameter>
+                        <parameter name="OverwriteExportFile">true</parameter>
+                    </parameters>
+                </step>
+            </flow>
+        </split>
+        <rules/>
+        <triggers>
+            <run-once enabled="true">
+                <date>2020-04-30Z</date>
+                <time>16:42:05.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+    <job job-id="Monachina" priority="0">
+        <description>A job process which reviews the custom object for purchase post retries based on the order number.</description>
+        <parameters/>
+        <flow>
+            <context site-id="darwinspet"/>
+            <step step-id="ProcessPurchasePostRetries" type="ExecuteScriptModule" enforce-restart="false">
+                <description>Gets the purchase post retry custom object and attempts to retry the request based on order numbers.</description>
+                <parameters>
+                    <parameter name="ExecuteScriptModule.Module">custom_app_storefront/cartridge/scripts/steps/customJobTest.js</parameter>
+                    <parameter name="ExecuteScriptModule.FunctionName">retryPurchasePost</parameter>
+                    <parameter name="ExecuteScriptModule.Transactional">true</parameter>
+                    <parameter name="ExecuteScriptModule.TimeoutInSeconds">900</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules>
+            <on-running runtime-threshold="15m" enabled="true">
+                <mark-job-as-hanging/>
+            </on-running>
+        </rules>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2018-10-02Z</date-from>
+                    <start-time>19:00:39.000Z</start-time>
+                    <interval>10m</interval>
+                    <day-of-week/>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+    <job job-id="get-credit-card" priority="0">
+        <description>This job is used to retrieve credit card info from an external xml file.</description>
+        <parameters/>
+        <flow>
+            <context site-id="Training"/>
+            <step step-id="import-file" type="custom.import-file" enforce-restart="false">
+                <description>This job-step is used to import an xml.</description>
+                <parameters/>
+            </step>
+            <step step-id="read-file" type="custom.read-file" enforce-restart="false">
+                <description>This job-step is used to read the xmlfile.</description>
+                <parameters/>
+            </step>
+            <step step-id="get-retrieved-credit-card" type="custom.get-retrieved-credit-card" enforce-restart="false">
+                <description>This job-step is used to trtrieve the credit card data.</description>
+                <parameters/>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2018-10-02Z</date-from>
+                    <start-time>19:00:39.000Z</start-time>
+                    <interval>10m</interval>
+                    <day-of-week/>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+    <job job-id="create-new-paymentinstrument" priority="0">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="Training"/>
+            <step step-id="readPaymentInstrument" type="ExecuteScriptModule" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="ExecuteScriptModule.Module">custom_app_storefront/cartridge/scripts/steps/customJobTest.js</parameter>
+                    <parameter name="ExecuteScriptModule.FunctionName">create</parameter>
+                    <parameter name="ExecuteScriptModule.Transactional">true</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2020-05-01Z</date-from>
+                    <start-time>10:01:00.000Z</start-time>
+                    <interval>10m</interval>
+                    <day-of-week>
+                        <weekday>Saturday</weekday>
+                        <weekday>Monday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Sunday</weekday>
+                        <weekday>Wednesday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
+    <job job-id="RebuildURLs" priority="0">
+        <description/>
+        <parameters/>
+        <split sequential="false">
+            <contexts template-ref="template_40">
+                <context site-id="RefArch"/>
+                <context site-id="RefArchGlobal"/>
+            </contexts>
+            <flow-template template-id="template_40">
+                <step step-id="RebuildURLs" type="UpdateStorefrontURLs" enforce-restart="false">
+                    <description/>
+                    <parameters/>
+                </step>
+            </flow-template>
+        </split>
+        <rules/>
+        <triggers>
+            <run-once enabled="false">
+                <date>2018-06-25Z</date>
+                <time>05:38:35.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+    <job job-id="Reindex" priority="0">
+        <description/>
+        <parameters/>
+        <split sequential="false">
+            <contexts template-ref="template_45">
+                <context site-id="RefArch"/>
+                <context site-id="RefArchGlobal"/>
+            </contexts>
+            <flow-template template-id="template_45">
+                <step step-id="Reindex" type="SearchReindex" enforce-restart="false">
+                    <description/>
+                    <parameters>
+                        <parameter name="Product related search indexes">true</parameter>
+                        <parameter name="Active data search index">true</parameter>
+                        <parameter name="Content search index">true</parameter>
+                        <parameter name="Indexer Type">Full Index Rebuild</parameter>
+                    </parameters>
+                </step>
+            </flow-template>
+        </split>
+        <rules/>
+        <triggers>
+            <run-once enabled="false">
+                <date>2018-06-25Z</date>
+                <time>05:36:56.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+</jobs>

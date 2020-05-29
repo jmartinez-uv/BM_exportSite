@@ -1,0 +1,32 @@
+{
+    "_v": "20.4",
+    "clients": [
+        {
+            "client_id": "b820a2c3-4847-4570-918c-72297d529f60",
+            "allowed_origins": [],
+            "resources": [
+                {
+                    "resource_id": "/categories/*",
+                    "methods": [
+                        "get"
+                    ],
+                    "read_attributes": "(**)"
+                },
+                {
+                    "resource_id": "/products/({id},...,{id})",
+                    "methods": [
+                        "get"
+                    ],
+                    "read_attributes": "(**)"
+                },
+                {
+                    "resource_id": "/product_search/images",
+                    "methods": [
+                        "get"
+                    ],
+                    "read_attributes": "(**)"
+                }
+            ]
+        }
+    ]
+}

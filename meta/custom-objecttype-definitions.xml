@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <custom-type type-id="CustomObjectExample">
+        <display-name xml:lang="x-default">Custom Object Example</display-name>
+        <description xml:lang="x-default">Hi this is a custom object with an example</description>
+        <staging-mode>no-staging</staging-mode>
+        <storage-scope>organization</storage-scope>
+        <key-definition attribute-id="Example for training purposes">
+            <type>string</type>
+            <min-length>0</min-length>
+        </key-definition>
+        <attribute-definitions>
+            <attribute-definition attribute-id="StudentName">
+                <display-name xml:lang="x-default">Student Name</display-name>
+                <description xml:lang="x-default">This is the name of the student who is using it.</description>
+                <type>string</type>
+                <localizable-flag>false</localizable-flag>
+                <mandatory-flag>true</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+        </attribute-definitions>
+    </custom-type>
+
+</metadata>

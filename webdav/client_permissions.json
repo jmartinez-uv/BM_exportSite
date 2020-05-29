@@ -1,0 +1,21 @@
+{
+    "clients": [
+        {
+            "client_id": "b820a2c3-4847-4570-918c-72297d529f60",
+            "permissions": [
+                {
+                    "path": "/cartridges",
+                    "operations": [
+                        "read_write"
+                    ]
+                },
+                {
+                    "path": "/impex",
+                    "operations": [
+                        "read_write"
+                    ]
+                }
+            ]
+        }
+    ]
+}

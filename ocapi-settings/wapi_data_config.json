@@ -1,0 +1,36 @@
+{
+  "_v": "20.4",
+  "clients": [
+    {
+      "client_id": "b820a2c3-4847-4570-918c-72297d529f60",
+      "allowed_origins": ["https://api-explorer.commercecloud.salesforce.com"],
+      "resources": [
+        {
+          "resource_id": "/code_versions/*",
+          "methods": [
+            "patch"
+          ],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+        },
+        {
+          "resource_id": "/jobs/*/executions",
+          "methods": [
+            "post",
+            "get"
+          ],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+        },
+        {
+          "resource_id": "/jobs/*/executions/*",
+          "methods": [
+            "get"
+          ],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+        }
+      ]
+    }
+  ]
+}
